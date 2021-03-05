@@ -1,0 +1,32 @@
+version: '3'
+
+services:
+  wordpress:
+    image: wordpress:latest
+    ports:
+      - "9651:80"
+    restart: always
+    environment:
+      WORDPRESS_DB_HOST: word-press-db:3306
+      WORDPRESS_DB_USER: wordpress
+      WORDPRESS_DB_PASSWORD: wordpress
+      WORDPRESS_DB_NAME: wordpress
+    volumes:
+      - ./wp00:/var/www/html
+    tty: true
+    stdin_open: true
+  word-press-db:
+    image: mysql:8.0
+    ports:
+      - 9652:3306
+    restart: always
+    tty: true
+    environment:
+      MYSQL_ROOT_PASSWORD: root
+      MYSQL_DATABASE: wordpress
+      MYSQL_USER: wordpress
+      MYSQL_PASSWORD: wordpress
+    volumes:
+      - word-press-db:/var/lib/mysql
+volumes:
+  word-press-db:
